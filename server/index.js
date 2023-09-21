@@ -2,6 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import path from "path";
+import { fileURLToPath } from "url";
 
 import dotenv from "dotenv";
 
@@ -21,6 +23,12 @@ const db_connect = () => {
 };
 
 const app = express();
+
+app.use(
+  express.static(
+    path.join(path.dirname(fileURLToPath(import.meta.url)), "/public")
+  )
+);
 
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
