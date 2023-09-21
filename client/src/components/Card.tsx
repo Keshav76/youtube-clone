@@ -55,7 +55,12 @@ const Card = (props: Props) => {
           preload="none"
         ></video>
         <div className="flex flex-row items-start justify-start my-2  gap-3">
-          <img src={user?.imgUrl} alt="_" width={30} className="rounded-full" />
+          <img
+            src={user?.imgUrl}
+            alt="_"
+            width={30}
+            className="rounded-full aspect-square object-cover"
+          />
           <div>
             <div>{video.title}</div>
             <div className="text-gray-400">{user?.userId}</div>

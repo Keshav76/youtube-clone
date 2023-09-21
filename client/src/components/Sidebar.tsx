@@ -68,7 +68,7 @@ const Sidebar = (props: Props) => {
       media.forEach((i) => {
         i.style.filter = `invert(${x})`;
       });
-    }, 500);
+    }, 1000);
   }, [location]);
 
   useEffect(() => {

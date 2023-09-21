@@ -72,10 +72,7 @@ const Navbar = (props: Props) => {
 
   var location = useLocation();
   useEffect(() => {
-    console.log("Loc");
-    if (!user.loggedIn) {
-      return;
-    }
+    if (!user.loggedIn) return;
     axios.get("/api/users/find/" + user.currentUser?._id).then((res) => {
       dispatch(login(res.data));
     });
