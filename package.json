@@ -8,7 +8,7 @@
     "server": "npm start --prefix server",
     "client": "npm start --prefix client",
     "start": "concurrently --raw \"npm run server\" \"npm run client\"",
-    "build": "concurrently --raw \"npm install\" \"npm install --prefix client\" \"npm install --prefix server\""
+    "build": "npm install && concurrently --raw \"npm install --prefix client\" \"npm install --prefix server\""
   },
   "keywords": [],
   "author": "",
