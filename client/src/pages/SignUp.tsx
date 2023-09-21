@@ -130,7 +130,7 @@ const SignUp = (props: Props) => {
                       <FontAwesomeIcon icon={faImage} size="lg" />
                     )}
                     {progress > 0 && progress < 100 && <>{progress}%</>}
-                    {data.imgUrl && <img src={data.imgUrl} />}
+                    {data.imgUrl && <img src={data.imgUrl} alt="" />}
                   </label>
                   <input
                     type="file"

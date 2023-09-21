@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import ThinCard from "../components/ThinCard";
@@ -18,7 +18,6 @@ import {
   faThumbsUp,
   faThumbsDown,
 } from "@fortawesome/free-solid-svg-icons";
-import { login } from "../store/reducers/userReducer";
 
 const VideoPage = () => {
   const { id } = useParams();
@@ -30,8 +29,6 @@ const VideoPage = () => {
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
-
-  const dispatch = useDispatch();
 
   let currentUser = useSelector((state: State) => state.user.currentUser);
   const me = currentUser?._id;
@@ -79,6 +76,7 @@ const VideoPage = () => {
         .catch((err) => console.log(err));
     };
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [me, id]);
 
   const likehandle = () => {

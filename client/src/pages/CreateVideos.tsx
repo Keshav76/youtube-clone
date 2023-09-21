@@ -41,7 +41,7 @@ const CreateVideo = (props: Props) => {
         );
         if (name === "imgUrl") setImgPercent(progress);
         else setVideoPercent(progress);
-        console.log("Upload is " + progress + "% done" + "for " + name);
+        console.log("Upload is " + progress + "% done for " + name);
       },
       (error) => {
         console.log(error);
@@ -59,9 +59,11 @@ const CreateVideo = (props: Props) => {
 
   useEffect(() => {
     if (img) fileUpload(img, "imgUrl");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [img]);
   useEffect(() => {
     if (video) fileUpload(video, "videoUrl");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [video]);
 
   const handleChange = (

@@ -69,7 +69,7 @@ const Sidebar = (props: Props) => {
         i.style.filter = `invert(${x})`;
       });
     }, 1000);
-  }, [location]);
+  }, [location, theme]);
 
   useEffect(() => {
     const getData = async () => {

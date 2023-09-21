@@ -76,6 +76,7 @@ const Navbar = (props: Props) => {
     axios.get("/api/users/find/" + user.currentUser?._id).then((res) => {
       dispatch(login(res.data));
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   const logoutHandle = () => {
