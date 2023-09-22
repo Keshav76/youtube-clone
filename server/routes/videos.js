@@ -22,7 +22,7 @@ router.post("/create", verifyToken, createVideo);
 router.put("/update/:id", verifyToken, updateVideo);
 router.delete("/delete/:id", verifyToken, deleteVideo);
 router.get("/get/:id", getVideos);
-router.put("/view/:id", verifyToken, addView);
+router.put("/view/:id", addView);
 router.get("/trending", getTrending);
 router.get("/random", getRandom);
 router.get("/sub", verifyToken, getVideoFromSub);

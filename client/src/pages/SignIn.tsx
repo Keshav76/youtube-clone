@@ -10,6 +10,7 @@ import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
 
 import { login } from "../store/reducers/userReducer";
+import { toast } from "react-toastify";
 
 type Props = {};
 
@@ -25,10 +26,17 @@ const Signin = (props: Props) => {
     axios
       .post("/api/auth/signin", data)
       .then((res) => {
+        toast.success("Login successful");
         dispatch(login(res.data));
         navigate(-1);
       })
-      .catch((err) => alert(err.response.data.message));
+      .catch((err) => {
+        if (!err.response || !err.response.data || !err.response.data.message) {
+          toast.error("Server error");
+          return;
+        }
+        toast.error(err.response.data.message);
+      });
   };
 
   const handleGoogleLogin = () => {
@@ -42,11 +50,22 @@ const Signin = (props: Props) => {
           })
           .then((res) => {
             dispatch(login(res.data));
+            toast.success("Login successful");
             navigate(-1);
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            if (
+              !err.response ||
+              !err.response.data ||
+              !err.response.data.message
+            ) {
+              toast.error("Server error");
+              return;
+            }
+            toast.error(err.response.data.message);
+          });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error("Server unreachable!"));
   };
 
   return (

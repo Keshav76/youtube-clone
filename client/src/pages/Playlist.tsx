@@ -5,6 +5,7 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import Video from "../models/video";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 type Props = {};
 
@@ -15,7 +16,13 @@ const Playlist = (props: Props) => {
     axios
       .get("/api/users/playlists/" + name)
       .then((res) => setVideos(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (!err.response || !err.response.data || !err.response.data.message) {
+          toast.error("Server error");
+          return;
+        }
+        toast.error(err.response.data.message);
+      });
   }, [name]);
   return (
     <div className="overflow-scroll h-full w-full box-border scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300 p-4">

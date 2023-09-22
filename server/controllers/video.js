@@ -1,6 +1,7 @@
 import createError from "../error.js";
 import Video from "../models/videos.js";
 import User from "../models/users.js";
+import jwt from "jsonwebtoken";
 
 export const createVideo = async (req, res, next) => {
   try {
@@ -62,14 +63,23 @@ export const getVideos = async (req, res, next) => {
 
 export const addView = async (req, res, next) => {
   try {
+    const data = jwt.verify(
+      req.cookies.access_token,
+      process.env.JWT_SECRET_KEY
+    );
+    req.id = data.id;
+    next();
+  } catch (err) {}
+  try {
     await Video.findOneAndUpdate(
       { _id: req.params.id },
       { $inc: { views: 1 } }
     );
-    await User.findOneAndUpdate(
-      { _id: req.id },
-      { $addToSet: { history: req.params.id } }
-    );
+    if (req.id)
+      await User.findOneAndUpdate(
+        { _id: req.id },
+        { $addToSet: { history: req.params.id } }
+      );
     res.status(200).json("View Added");
   } catch (err) {
     next(err);
@@ -87,10 +97,7 @@ export const getTrending = async (req, res, next) => {
 
 export const getRandom = async (req, res, next) => {
   try {
-    const data = await Video.aggregate([
-      { $sample: { size: 20 } },
-      { $sort: { views: -1 } },
-    ]);
+    const data = await Video.find({});
     res.status(200).json(data);
   } catch (err) {
     next(err);

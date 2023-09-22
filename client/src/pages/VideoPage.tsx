@@ -17,7 +17,9 @@ import {
   faClock,
   faThumbsUp,
   faThumbsDown,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 const VideoPage = () => {
   const { id } = useParams();
@@ -36,9 +38,13 @@ const VideoPage = () => {
   useEffect(() => {
     const getData = async () => {
       let a = "1";
-      await axios
-        .put("/api/videos/view/" + id)
-        .catch((err) => console.log(err));
+      await axios.put("/api/videos/view/" + id).catch((err) => {
+        if (!err.response || !err.response.data || !err.response.data.message) {
+          toast.error("Server error");
+          return;
+        }
+        toast.error(err.response.data.message);
+      });
       await axios
         .get("/api/videos/get/" + id)
         .then((res) => {
@@ -52,28 +58,66 @@ const VideoPage = () => {
             setDisliked(true);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (
+            !err.response ||
+            !err.response.data ||
+            !err.response.data.message
+          ) {
+            toast.error("Server error");
+            return;
+          }
+          toast.error(err.response.data.message);
+        });
 
       await axios
         .get("/api/users/find/" + a)
         .then((res) => {
           setUser(res.data);
-          console.log(currentUser, res.data);
           if (currentUser?.subscribedUsers.includes(res.data._id)) {
             setSubscribed(true);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (
+            !err.response ||
+            !err.response.data ||
+            !err.response.data.message
+          ) {
+            toast.error("Server error");
+            return;
+          }
+          toast.error(err.response.data.message);
+        });
 
       await axios
         .get("/api/comments/get/" + id)
         .then((res) => setComments(res.data))
-        .catch((err) => console.log(err));
-
+        .catch((err) => {
+          if (
+            !err.response ||
+            !err.response.data ||
+            !err.response.data.message
+          ) {
+            toast.error("Server error");
+            return;
+          }
+          toast.error(err.response.data.message);
+        });
       await axios
         .get("/api/videos/random")
         .then((res) => setVideos(res.data))
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (
+            !err.response ||
+            !err.response.data ||
+            !err.response.data.message
+          ) {
+            toast.error("Server error");
+            return;
+          }
+          toast.error(err.response.data.message);
+        });
     };
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,8 +130,15 @@ const VideoPage = () => {
         setDisliked(false);
         setLikes(likes + (liked ? -1 : 1));
         setLiked(!liked);
+        toast.success(res.data.message);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (!err.response || !err.response.data || !err.response.data.message) {
+          toast.error("Server error");
+          return;
+        }
+        toast.error(err.response.data.message);
+      });
   };
 
   const dislikeHandle = () => {
@@ -97,10 +148,17 @@ const VideoPage = () => {
         if (liked) {
           setLikes(likes - 1);
           setLiked(false);
+          toast.success(res.data.message);
         }
         setDisliked(!disliked);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (!err.response || !err.response.data || !err.response.data.message) {
+          toast.error("Server error");
+          return;
+        }
+        toast.error(err.response.data.message);
+      });
   };
 
   const handleComment = (e: React.FormEvent<HTMLFormElement>) => {
@@ -108,8 +166,17 @@ const VideoPage = () => {
     const inp = document.getElementById("comment-box") as HTMLInputElement;
     axios
       .post("/api/comments/create/" + id, { desc: inp.value })
-      .then((res) => setComments([res.data, ...comments]))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        setComments([res.data, ...comments]);
+        toast.success("Comment added");
+      })
+      .catch((err) => {
+        if (!err.response || !err.response.data || !err.response.data.message) {
+          toast.error("Server error");
+          return;
+        }
+        toast.error(err.response.data.message);
+      });
     inp.value = "";
   };
 
@@ -124,7 +191,13 @@ const VideoPage = () => {
       .then(() => {
         setSubscribed(!subscribed);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (!err.response || !err.response.data || !err.response.data.message) {
+          toast.error("Server error");
+          return;
+        }
+        toast.error(err.response.data.message);
+      });
   };
 
   const handleWatchLater = (
@@ -134,8 +207,15 @@ const VideoPage = () => {
       .put("/api/videos/watch-later/" + id)
       .then(() => {
         (e.target as HTMLButtonElement).disabled = true;
+        toast.success("Added to Watch Later");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (!err.response || !err.response.data || !err.response.data.message) {
+          toast.error("Server error");
+          return;
+        }
+        toast.error(err.response.data.message);
+      });
   };
 
   return (
@@ -220,15 +300,23 @@ const VideoPage = () => {
         </div>
 
         <form
-          className="mt-10 items-center hidden md:flex"
+          className="mt-10 items-center flex"
           onSubmit={(e) => handleComment(e)}
         >
-          <img
-            src={currentUser?.imgUrl}
-            alt=""
-            width={30}
-            className="rounded-full h-auto object-cover aspect-square"
-          />
+          {currentUser && (
+            <img
+              src={currentUser.imgUrl}
+              alt=""
+              width={30}
+              className="rounded-full h-auto object-cover aspect-square"
+            />
+          )}
+          {!currentUser && (
+            <FontAwesomeIcon
+              icon={faUser}
+              className="bg-zinc-600 p-2 rounded-full"
+            />
+          )}
           <input
             id="comment-box"
             name="query"
@@ -244,11 +332,13 @@ const VideoPage = () => {
           />
         </form>
 
-        <div className="mt-10 hidden md:block">
+        <div className="mt-10 block">
           {comments?.map((ele, ind) => (
             <Comment key={ind} comment={ele} />
           ))}
         </div>
+
+        <hr className="block md:hidden mb-3" />
       </div>
 
       {/* RHS */}

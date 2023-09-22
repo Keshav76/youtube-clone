@@ -21,6 +21,7 @@ import User from "../img/user.png";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 type Props = {};
 type Subs = {
@@ -56,7 +57,6 @@ const Sidebar = (props: Props) => {
   useEffect(() => {
     setTimeout(() => {
       const x = theme === "dark" ? 0 : 1;
-      console.log("Location changed");
       let img = Array.from(
         document.getElementsByTagName("img") as HTMLCollectionOf<HTMLElement>
       );
@@ -64,7 +64,6 @@ const Sidebar = (props: Props) => {
         document.getElementsByTagName("video") as HTMLCollectionOf<HTMLElement>
       );
       let media = img.concat(video);
-      console.log(media);
       media.forEach((i) => {
         i.style.filter = `invert(${x})`;
       });
@@ -76,18 +75,38 @@ const Sidebar = (props: Props) => {
       axios
         .get("/api/users/playlists")
         .then((res) => setPlaylist(res.data))
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (
+            !err.response ||
+            !err.response.data ||
+            !err.response.data.message
+          ) {
+            toast.error("Server error");
+            return;
+          }
+          toast.error(err.response.data.message);
+        });
       axios
         .get("/api/users/subscribers")
         .then((res) => setSubs(res.data))
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (
+            !err.response ||
+            !err.response.data ||
+            !err.response.data.message
+          ) {
+            toast.error("Server error");
+            return;
+          }
+          toast.error(err.response.data.message);
+        });
     };
-    getData();
+    if (user) getData();
   }, []);
   return (
     <div
       id="side"
-      className="absolute bg-zinc-900 left-0 hidden flex-col gap-4 p-1 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 z-10 h-full overflow-scroll scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300"
+      className="hidden absolute bg-zinc-900 left-0 flex-col gap-4 p-1 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 z-10 h-full overflow-scroll scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300"
     >
       <Element label="Home" icon={faHouse} link="/" />
       <Element
@@ -106,7 +125,7 @@ const Sidebar = (props: Props) => {
           <Element label={ele} icon={faFilm} link={`/playlist/${ele}`} />
         ))}
       <hr />
-      <div className="ml-4 ">Subscriptions</div>
+      {user && <div className="ml-4 ">Subscriptions</div>}
       {user &&
         subs.map((ele, ind) => (
           <Element

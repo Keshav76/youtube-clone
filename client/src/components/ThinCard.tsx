@@ -6,6 +6,7 @@ import Video from "../models/video";
 import User from "../models/user";
 import axios from "axios";
 import timeSince from "../timeSince";
+import { toast } from "react-toastify";
 
 type Props = {
   index: Number;
@@ -20,7 +21,17 @@ const ThinCard = (props: Props) => {
       axios
         .get("/api/users/find/" + video.userId)
         .then((res) => setUser(res.data))
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (
+            !err.response ||
+            !err.response.data ||
+            !err.response.data.message
+          ) {
+            toast.error("Server error");
+            return;
+          }
+          toast.error(err.response.data.message);
+        });
     };
     getUser();
   }, [video]);

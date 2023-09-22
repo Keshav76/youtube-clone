@@ -5,6 +5,7 @@ import User from "../models/user";
 import axios from "axios";
 
 import CommentType from "../models/comments";
+import { toast } from "react-toastify";
 
 type Props = {
   comment: CommentType;
@@ -17,7 +18,13 @@ const Comment = (props: Props) => {
     axios
       .get("/api/users/find/" + comment.userId)
       .then((res) => setUser(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (!err.response || !err.response.data || !err.response.data.message) {
+          toast.error("Server error");
+          return;
+        }
+        toast.error(err.response.data.message);
+      });
   }, [comment]);
   return (
     <div className="flex items-start mb-5 gap-3">

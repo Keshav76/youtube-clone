@@ -2,6 +2,8 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {};
 
@@ -18,6 +20,11 @@ const Layout = (props: Props) => {
           <Outlet />
         </div>
       </div>
+      <ToastContainer
+        draggable={false}
+        theme="colored"
+        position="bottom-right"
+      />
     </div>
   );
 };

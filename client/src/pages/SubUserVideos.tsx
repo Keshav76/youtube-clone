@@ -5,6 +5,7 @@ import Video from "../models/video";
 import { useSelector } from "react-redux";
 import { State } from "../store/store";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 type Props = {};
 
@@ -17,7 +18,17 @@ const SubUserVideos = (props: Props) => {
       axios
         .get("/api/videos/user-video/" + id)
         .then((res) => setVideo(res.data))
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (
+            !err.response ||
+            !err.response.data ||
+            !err.response.data.message
+          ) {
+            toast.error("Server error");
+            return;
+          }
+          toast.error(err.response.data.message);
+        });
     };
     getVideos();
   }, [id]);

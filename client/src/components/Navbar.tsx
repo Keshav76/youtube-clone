@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { State } from "../store/store";
 import { login, logout } from "../store/reducers/userReducer";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 type Props = {};
 
@@ -31,7 +32,7 @@ const Logo = () => {
 const handleSidebarOpenClose = (val: string = "") => {
   const sidebar = document.getElementById("side");
   let sidebarState = sidebar?.style.display;
-  sidebarState = sidebarState === "none" ? "flex" : "none";
+  sidebarState = sidebarState !== "flex" ? "flex" : "none";
   if (val) sidebarState = val;
   if (sidebar) sidebar.style.display = sidebarState;
 };
@@ -81,7 +82,7 @@ const Navbar = (props: Props) => {
 
   const logoutHandle = () => {
     axios.get("/api/auth/logout").then((res) => {
-      console.log(res);
+      toast.success(res.data.message);
     });
     dispatch(logout());
   };

@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { State } from "../store/store";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 type Props = {};
 
@@ -41,17 +42,14 @@ const CreateVideo = (props: Props) => {
         );
         if (name === "imgUrl") setImgPercent(progress);
         else setVideoPercent(progress);
-        console.log("Upload is " + progress + "% done for " + name);
       },
       (error) => {
-        console.log(error);
+        toast.error("Error uploading file");
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           const newData = { ...data, [name]: downloadURL };
           setData(newData);
-          console.log("File available at", downloadURL, "for" + name);
-          console.log(data);
         });
       }
     );
@@ -77,9 +75,16 @@ const CreateVideo = (props: Props) => {
     axios
       .post("/api/videos/create", data)
       .then((res) => {
+        toast.success("Video Uploaded");
         navigate("/video/" + res.data._id);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (!err.response || !err.response.data || !err.response.data.message) {
+          toast.error("Server error");
+          return;
+        }
+        toast.error(err.response.data.message);
+      });
   };
   return (
     <>

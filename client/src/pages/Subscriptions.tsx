@@ -6,6 +6,7 @@ import Video from "../models/video";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { State } from "../store/store";
+import { toast } from "react-toastify";
 
 type Props = {};
 
@@ -17,7 +18,17 @@ const Subscriptions = (props: Props) => {
       axios
         .get("/api/videos/sub")
         .then((res) => setVideos(res.data))
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (
+            !err.response ||
+            !err.response.data ||
+            !err.response.data.message
+          ) {
+            toast.error("Server error");
+            return;
+          }
+          toast.error(err.response.data.message);
+        });
     };
     getVideos();
   }, []);

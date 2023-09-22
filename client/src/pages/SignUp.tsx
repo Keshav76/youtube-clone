@@ -19,6 +19,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+import { toast } from "react-toastify";
 
 type Props = {};
 
@@ -57,7 +58,6 @@ const SignUp = (props: Props) => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           const newData = { ...data, imgUrl: downloadURL };
           setData(newData);
-          console.log("File available at", downloadURL);
         });
       }
     );
@@ -65,21 +65,28 @@ const SignUp = (props: Props) => {
 
   const handleSignup = async () => {
     if (data.email === "" || data.password === "" || data.userId === "") {
-      alert("Please fill all the fields");
+      toast.error("Please fill all the fields");
       return;
     }
     const emailFormat = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
     if (!emailFormat.test(data.email)) {
-      alert("Please enter a valid email");
+      toast.error("Please enter a valid email");
       return;
     }
     axios
       .post("/api/auth/signup", data)
       .then((res) => {
+        toast.success("Signed Up Successfully");
         dispatch(login(res.data));
         navigate(-2);
       })
-      .catch((err) => alert(err.response.data.message));
+      .catch((err) => {
+        if (!err.response || !err.response.data || !err.response.data.message) {
+          toast.error("Server error");
+          return;
+        }
+        toast.error(err.response.data.message);
+      });
   };
 
   const handleGoogleLogin = () => {
@@ -92,12 +99,23 @@ const SignUp = (props: Props) => {
             imgUrl: res.user.photoURL,
           })
           .then((res) => {
+            toast.success("Signed Up Successfully");
             dispatch(login(res.data));
             navigate(-2);
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            if (
+              !err.response ||
+              !err.response.data ||
+              !err.response.data.message
+            ) {
+              toast.error("Server error");
+              return;
+            }
+            toast.error(err.response.data.message);
+          });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error("Server Unreachable!"));
   };
 
   return (

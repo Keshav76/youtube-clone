@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import axios from "axios";
 import Video from "../models/video";
+import { toast } from "react-toastify";
 
 type Props = {};
 
@@ -12,7 +13,17 @@ const Home = (props: Props) => {
       axios
         .get("/api/videos/random")
         .then((res) => setVideos(res.data))
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (
+            !err.response ||
+            !err.response.data ||
+            !err.response.data.message
+          ) {
+            toast.error("Server error");
+            return;
+          }
+          toast.error(err.response.data.message);
+        });
     };
     fetchVideos();
   }, []);
