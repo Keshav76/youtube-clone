@@ -5,8 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "",
+    "start": "node index.js",
+    "deploy": "node index.js",
+    "dev": "nodemon index.js",
+    "predeploy": "npm run build"
   },
   "keywords": [],
   "author": "",
