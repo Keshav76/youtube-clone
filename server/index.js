@@ -42,6 +42,10 @@ app.use("/api/comments", commentsRouter);
 
 app.use(errorHandler);
 
+app.get("/api", (req, res) => {
+  res.status(200).json("Hello World!");
+});
+
 const PORT = process.env.SERVER_PORT || 3001;
 app.listen(PORT, () => {
   db_connect();
