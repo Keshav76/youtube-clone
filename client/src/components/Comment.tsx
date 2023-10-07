@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import timeSince from "../timeSince";
 import User from "../models/user";
-import axios from "axios";
+import axios from "../my-axios";
 
 import CommentType from "../models/comments";
 import { toast } from "react-toastify";

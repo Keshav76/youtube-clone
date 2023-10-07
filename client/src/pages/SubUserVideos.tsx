@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
-import axios from "axios";
+import axios from "../my-axios";
 import Video from "../models/video";
 import { useSelector } from "react-redux";
 import { State } from "../store/store";

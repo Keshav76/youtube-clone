@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../my-axios";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 

@@ -18,7 +18,7 @@ import Element from "../components/Element";
 import { useSelector } from "react-redux";
 import { State } from "../store/store";
 import User from "../img/user.png";
-import axios from "axios";
+import axios from "../my-axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";

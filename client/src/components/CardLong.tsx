@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Video from "../models/video";
 import timeSince from "../timeSince";
 import User from "../models/user";
-import axios from "axios";
+import axios from "../my-axios";
 import { toast } from "react-toastify";
 
 type Props = {

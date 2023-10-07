@@ -13,7 +13,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { State } from "../store/store";
 import { login, logout } from "../store/reducers/userReducer";
-import axios from "axios";
+import axios from "../my-axios";
 import { toast } from "react-toastify";
 
 type Props = {};

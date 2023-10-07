@@ -4,7 +4,7 @@ import CardLong from "../components/CardLong";
 
 import { useParams } from "react-router-dom";
 import Video from "../models/video";
-import axios from "axios";
+import axios from "../my-axios";
 import { toast } from "react-toastify";
 
 const SearchResult = () => {

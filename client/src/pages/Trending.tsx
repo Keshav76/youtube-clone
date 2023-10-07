@@ -3,7 +3,7 @@ import Card from "../components/Card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFire } from "@fortawesome/free-solid-svg-icons";
 import Video from "../models/video";
-import axios from "axios";
+import axios from "../my-axios";
 import { toast } from "react-toastify";
 
 type Props = {};

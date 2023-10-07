@@ -3,7 +3,7 @@ import Card from "../components/Card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import Video from "../models/video";
-import axios from "axios";
+import axios from "../my-axios";
 import { useSelector } from "react-redux";
 import { State } from "../store/store";
 import { toast } from "react-toastify";

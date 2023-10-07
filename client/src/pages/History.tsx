@@ -5,7 +5,7 @@ import { faHistory } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { State } from "../store/store";
 import Video from "../models/video";
-import axios from "axios";
+import axios from "../my-axios";
 import { toast } from "react-toastify";
 
 type Props = {};

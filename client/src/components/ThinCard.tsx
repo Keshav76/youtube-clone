@@ -4,7 +4,7 @@ import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Video from "../models/video";
 import User from "../models/user";
-import axios from "axios";
+import axios from "../my-axios";
 import timeSince from "../timeSince";
 import { toast } from "react-toastify";
 

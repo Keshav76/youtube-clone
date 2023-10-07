@@ -12,7 +12,7 @@ import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
 import { login } from "../store/reducers/userReducer";
 import { useDispatch } from "react-redux";
-import axios from "axios";
+import axios from "../my-axios";
 import {
   getStorage,
   ref,

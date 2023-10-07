@@ -7,7 +7,7 @@ import {
 } from "firebase/storage";
 import { useSelector } from "react-redux";
 import { State } from "../store/store";
-import axios from "axios";
+import axios from "../my-axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios from "../my-axios";
 import { Link, useNavigate } from "react-router-dom";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faLock, faUser } from "@fortawesome/free-solid-svg-icons";
