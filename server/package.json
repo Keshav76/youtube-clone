@@ -7,9 +7,8 @@
   "scripts": {
     "build": "",
     "start": "node index.js",
-    "deploy": "node index.js",
-    "dev": "nodemon index.js",
-    "predeploy": "npm run build"
+    "deploy": "echo hello",
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
