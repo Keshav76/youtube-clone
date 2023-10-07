@@ -38,7 +38,7 @@ const VideoPage = () => {
   useEffect(() => {
     const getData = async () => {
       let a = "1";
-      await axios.put("/api/videos/view/" + id).catch((err) => {
+      await axios.post("/api/videos/view/" + id).catch((err) => {
         if (!err.response || !err.response.data || !err.response.data.message) {
           toast.error("Server error");
           return;
@@ -204,7 +204,7 @@ const VideoPage = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     axios
-      .put("/api/videos/watch-later/" + id)
+      .post("/api/videos/watch-later/" + id)
       .then(() => {
         (e.target as HTMLButtonElement).disabled = true;
         toast.success("Added to Watch Later");

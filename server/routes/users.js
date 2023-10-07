@@ -23,8 +23,8 @@ import {
 const router = express.Router();
 
 router.get("/find/:id", getUser);
-router.put("/update/:id", verifyToken, updateUser);
-router.delete("/delete/:id", verifyToken, deleteUser);
+router.post("/update/:id", verifyToken, updateUser);
+router.post("/delete/:id", verifyToken, deleteUser);
 router.post("/subscribe/:id", verifyToken, subscribe);
 router.post("/unsubscribe/:id", verifyToken, unsubscribe);
 router.get("/history", verifyToken, history);

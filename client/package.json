@@ -1,8 +1,8 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "private": true, 
-  "proxy": "https://kb-youtube-api.vercel.app",
+  "private": true,
+  "proxy": "https://youtube-9r1a.onrender.com/",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
