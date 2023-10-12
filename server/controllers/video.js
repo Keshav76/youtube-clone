@@ -68,7 +68,6 @@ export const addView = async (req, res, next) => {
       process.env.JWT_SECRET_KEY
     );
     req.id = data.id;
-    next();
   } catch (err) {}
   try {
     await Video.findOneAndUpdate(
