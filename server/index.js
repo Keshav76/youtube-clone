@@ -2,8 +2,6 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import path from "path";
-import { fileURLToPath } from "url";
 
 import dotenv from "dotenv";
 
@@ -24,16 +22,18 @@ const db_connect = () => {
 
 const app = express();
 
-app.use(
-  express.static(
-    path.join(path.dirname(fileURLToPath(import.meta.url)), "/public")
-  )
-);
-
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "production"
+        ? "https://kb-youtube.vercel.app"
+        : "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
