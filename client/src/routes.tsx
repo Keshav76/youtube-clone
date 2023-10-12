@@ -1,5 +1,6 @@
 import {
   createBrowserRouter,
+  createHashRouter,
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
@@ -19,7 +20,7 @@ import SignUp from "./pages/SignUp";
 import SubUserVideos from "./pages/SubUserVideos";
 import CreateVideo from "./pages/CreateVideos";
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
