@@ -27,7 +27,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: 'https://kb-youtube.vercel.app/',
+    origin:
+      process.env.NODE_ENV === "production"
+        ? "https://kb-youtube.vercel.app/"
+        : "http://localhost:3000",
     credentials: true,
   })
 );
